@@ -34,7 +34,6 @@ import maxHeight from './plugins/maxHeight'
 import maxWidth from './plugins/maxWidth'
 import minHeight from './plugins/minHeight'
 import minWidth from './plugins/minWidth'
-import negativeMargin from './plugins/negativeMargin'
 import objectFit from './plugins/objectFit'
 import objectPosition from './plugins/objectPosition'
 import opacity from './plugins/opacity'
@@ -100,12 +99,12 @@ export default function({ corePlugins: corePluginConfig }) {
     lineHeight,
     listStylePosition,
     listStyleType,
-    margin,
+    margin: margin({ negative: false }),
     maxHeight,
     maxWidth,
     minHeight,
     minWidth,
-    negativeMargin,
+    negativeMargin: margin({ negative: true }),
     objectFit,
     objectPosition,
     opacity,
