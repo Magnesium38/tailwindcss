@@ -2,6 +2,8 @@ import _ from 'lodash'
 import _postcss from 'postcss'
 import processPlugins from '../src/util/processPlugins'
 
+import negative from '../src/util/negative'
+
 function css(nodes) {
   return _postcss.root({ nodes }).toString()
 }
@@ -1128,6 +1130,30 @@ test('prefix will prefix all classes in a selector', () => {
   expect(css(components)).toMatchCss(`
     .tw-btn-blue .tw-w-1\\/4 > h1.tw-text-xl + a .tw-bar {
       background-color: blue
+    }
+    `)
+})
+
+test('negating a plugin works as expected', () => {
+  const { components, utilities } = processPlugins(
+    [
+      negative(function({ addUtilities }) {
+        addUtilities({
+          '.mt-4': {
+            'margin-top': '1rem',
+          },
+        })
+      })(),
+    ],
+    makeConfig()
+  )
+
+  expect(components.length).toBe(0)
+  expect(css(utilities)).toMatchCss(`
+    @variants {
+      .-mt-4 {
+        margin-top: -1rem
+      }
     }
     `)
 })
